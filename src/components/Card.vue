@@ -2,32 +2,31 @@
 <div id="Card">
 
   <!-- startcolum1 -->
-  <div class="columhead1" v-for="n in 4">
+  <div class="columhead1" v-for="n in events">
     <div class="colum1">
       <div class="card">
         <div class="card-image">
           <figure class="image is-4by3">
-            <img src="../assets/meeting.jpg">
+            <img :src="n.picture">
           </figure>
         </div>
         <div class="card-content">
           <div class="media">
             <div class="media-left">
               <figure class="image is-32x32">
-                <img src="../assets/logo.png">
+                <img :src="n.picture">
               </figure>
             </div>
             <div class="media-content">
-              <p class="title is-5">John Smith</p>
-              <p class="subtitle is-6">@johnsmith</p>
+              <p class="title is-5">{{n.name}}</p>
+              <p class="subtitle is-6">{{n.location}}</p>
             </div>
           </div>
 
           <div class="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris. <a href="#">@bulmaio</a>.
-            <a href="#">#css</a> <a href="#">#responsive</a>
-            <br>
-            <small>11:09 PM - 1 Jan 2016</small>
+          {{n.detail}}
+          <br>
+            <small>{{n.date}}</small>
           </div>
         </div>
       </div>
@@ -42,6 +41,7 @@
 <script>
 export default {
   name: 'Card',
+  props: ['events'],
   data () {
     return {}
   }

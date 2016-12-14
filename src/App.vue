@@ -26,7 +26,7 @@
   </nav>
   <!-- endheader -->
   <br>
-  <Card><Card>
+  <Card :events = "events" ><Card>
 </div>
 </template>
 
@@ -42,7 +42,8 @@ export default {
     return {
       profile: {},
       ready: false,
-      authorized: false
+      authorized: false,
+      events: []
     }
   },
   methods: {
@@ -93,6 +94,12 @@ export default {
         vm.statusChangeCallback(response)
       })
     }
+    this.$http.get('https://kmutnbevent.firebaseio.com/events.json').then(function (res) {
+      var arrData = Object.keys(res.body).map(key => res.body[key])
+      arrData.forEach(item => {
+        this.events.push(item)
+      })
+    })
   }
 }
 </script>
@@ -102,7 +109,7 @@ export default {
   /*background-image: url('./assets/backg.jpg');*/
   /*background-size: cover;*/
   height: 100vh;
-  background-color: #eeeeee;
+  /*background-color: #eeeeee;*/
 }
 .logout {
   font-family: 'Yrsa', serif;

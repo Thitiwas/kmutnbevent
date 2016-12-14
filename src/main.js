@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App'
 import Card from './components/Card.vue'
+var VueResource = require('vue-resource')
+Vue.use(VueResource)
 Vue.use(VueRouter)
 
 const router = new VueRouter({
