@@ -11,11 +11,11 @@
     </div>
     <br>
     <div class="nav-center">
-    <br>
+    <!-- <br>
       <input class="input" type="text" placeholder="Find a event">
       <button class="button">
         Search
-      </button>
+      </button> -->
     </div>
     <div class="nav-right">
       <span class="nav-item">
@@ -25,8 +25,7 @@
     </div>
   </nav>
   <!-- endheader -->
-  <br>
-  <Card :events = "events" :like = "like"  :id-facebook="idFacebook"><Card>
+  <Card :events = "events" :like = "like"  :id-facebook="idFacebook" :login="login"><Card>
 </div>
 </template>
 
@@ -158,20 +157,20 @@ export default {
 </script>
 
 <style>
+
 #app {
   /*background-image: url('./assets/backg.jpg');*/
   /*background-size: cover;*/
-  height: 100vh;
-  /*background-color: #eeeeee;*/
+
 }
 .logout {
-  font-family: 'Yrsa', serif;
+  font-family: 'Amaranth', sans-serif;
   font-size: 20px;
 }
 .nav_has-shadow {
   width: 100%;
   background-color: #3273dc;
-  height: 7%;
+  height: 7vh;
 }
 .nav-center {
   align-items: baseline;
@@ -182,23 +181,22 @@ export default {
     padding-right: 10;
 }
 .brand {
-  font-family: 'Yrsa', serif;
+  font-family: 'Amaranth', sans-serif;
   padding-top: 10px;
   padding-left: 10px;
 }
 .orange {
-  font-family: 'Yrsa', serif;
+  font-family: 'Amaranth', sans-serif;
   color: #ff9800;
-  font-size: 25px;
+  font-size: 18px;
 }
 .black {
-  font-family: 'Yrsa', serif;
+  font-family: 'Amaranth', sans-serif;
   color: black;
-  font-size: 18px;
+  font-size: 16px;
 }
 .nav {
   border-bottom: 2px solid #3273dc;
-  margin-bottom: 5vh;
 }
 .notification {
   margin-left:15%;
@@ -207,12 +205,12 @@ export default {
 }
 .cololorfb {
   color: #039be5;
-  font-family: 'Yrsa', serif;
-  font-size: 25px;
+  font-family: 'Amaranth', sans-serif;
+  font-size: 16px;
 }
 .sizelogout {
   color: black;
-  font-family: 'Yrsa', serif;
-  font-size: 18px;
+  font-family: 'Amaranth', sans-serif;
+  font-size: 16px;
 }
 </style>

@@ -3,55 +3,39 @@
 
   <!-- startcolum1 -->
   <div class="columhead1" v-for="n in events">
-    <div class="colum1">
-      <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img :src="n.picture">
-          </figure>
-        </div>
-        <div class="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-32x32">
-                <img :src="n.picture">
-              </figure>
-            </div>
-            <div class="media-content">
-              <p class="title is-5">{{n.name}}</p>
-              <p class="subtitle is-6">{{n.location}}</p>
-            </div>
-          </div>
-
-          <div class="content">
-          {{n.detail}}
-          <br>
-            <small>{{n.date}}</small>
-          </div>
+    <div class="card">
+      <br>
+      <center><img :src="n.picture" class="imgevnt" width="805px"></center>
+      <center>
+        <br>
+      <h2 class="title is-5 textred ">{{n.name}}</h2>
+      <h5 class="subtitle is-6 ">วันที่ {{n.date}}</h5>
+      <h5 class="subtitle is-6 ">สถานที่ {{n.location}}</h5>
           <div class="modal is-active" v-if="statusdetail">
             <div class="modal-background"></div>
             <div class="modal-card">
               <header class="modal-card-head">
-                <p class="modal-card-title">details Event</p>
+                <p class="modal-card-title">{{n.name}}</p>
                 <button class="delete" @click="showdetail2()"></button>
               </header>
               <section class="modal-card-body">
-                {{n.name}}<br><br><br>
+                <div class="contentdetail">
                 {{n.location}}<br><br>
                 {{n.date}}<br><br><br>
                 {{n.contact}}<br><br><br>
                 {{n.detail}}<br><br><br>
+              </div>
               </section>
             </div>
           </div>
-          <a class="button is-success" @click="showdetail1()">Detail</a>
-          <a class="button is-info"  @click="like(n.id)">สนใจ</a>
+
+          <a class="button is-success" @click="showdetail1()">รายละเอียด</a>
+          <a class="button is-info"  @click="like(n.id)">สนใจ</a></center>
+          <br>
           <!-- <a class="button is-info" v-if="!checkLike(n.user)" @click="disLike(n.id)">ไม่สนใจ</a> -->
         </div>
+        <br>
       </div>
-      <br><br>
-    </div>
-  </div>
   <!-- endcolum1 -->
 
 </div>
@@ -60,7 +44,7 @@
 <script>
 export default {
   name: 'Card',
-  props: ['events', 'like', 'idFacebook'],
+  props: ['events', 'like', 'idFacebook', 'login'],
   data () {
     return {
       statusdetail: false
@@ -73,6 +57,11 @@ export default {
     showdetail2 () {
       this.statusdetail = false
     }
+    // checklogin () {
+    //   if (this.idFacebook === '') {
+    //     login ()
+    //   }
+    // }
     // checkLike (user) {
     //   var vm = this
     //   var userData = Object.keys(user).map(key => user[key])
@@ -86,21 +75,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.columhead1 {
-  padding-left: 10%;
-  float: left;
-  width: 45%;
-}
-
-.colum1 {
-  font-family: 'Vollkorn', serif;
-  width: 100%;
-  float: left;
-  padding-left: 10%;
-  padding-right: 10%;
+#Card {
+  padding-top: 2vh;
+  height: 100%;
+  background-color: #e0e0e0;
 }
 .card {
-  width: 100%
-
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  font-family: 'Kanit', sans-serif;
+  /*padding-left:15%;
+  padding-right:15%;*/
+}
+.imgevnt {
 }
 </style>
