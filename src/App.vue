@@ -26,12 +26,22 @@
   </nav>
   <!-- endheader -->
   <br>
-  <Card :events = "events" ><Card>
+  <Card :events = "events" :like = "like"  :id-facebook="idFacebook"><Card>
 </div>
 </template>
 
 <script>
 /* global FB */
+import firebase from 'firebase'
+var config = {
+  apiKey: 'AIzaSyBc4O3qrb1xoIZN4jTmWmGvAYWCxvE2x-A',
+  authDomain: 'kmutnbevent.firebaseapp.com',
+  databaseURL: 'https://kmutnbevent.firebaseio.com',
+  storageBucket: 'kmutnbevent.appspot.com',
+  messagingSenderId: '1024101975238'
+}
+firebase.initializeApp(config)
+var Events = firebase.database().ref('events')
 import Card from './components/Card.vue'
 export default {
   name: 'app',
@@ -43,14 +53,16 @@ export default {
       profile: {},
       ready: false,
       authorized: false,
-      events: []
+      events: [],
+      idFacebook: ''
     }
   },
   methods: {
     getProfile () {
       let vm = this
       FB.api('/me', function (response) {
-        console.log(response)
+        vm.idFacebook = response.id
+        console.log(vm.idFacebook)
         vm.$set(vm, 'profile', response)
       })
     },
@@ -70,7 +82,6 @@ export default {
       let vm = this
       vm.ready = true
       console.log('statusChangeCallback')
-      console.log(response)
       if (response.status === 'connected') {
         vm.authorized = true
         vm.getProfile()
@@ -79,10 +90,52 @@ export default {
       } else {
         vm.authorized = false
       }
+    },
+    like (id) {
+      var vm = this
+      firebase.database().ref('events/' + id + '/user').push({
+        idFacebook: vm.idFacebook
+      })
     }
+    // disLike (id) {
+    //   var vm = this
+    //   var event = vm.events.find(event => event.id === id)
+    //   var userData = []
+    //   for (var prop in event.user) {
+    //     userData.push({
+    //       id: prop,
+    //       idFacebook: event.user[prop].idFacebook
+    //     })
+    //   }
+    //   var user = userData.find(user => user.idFacebook === vm.idFacebook)
+    //   console.log(user)
+    //   if (user !== undefined) {
+    //     firebase.database().ref('events/' + id + '/user/' + user.id).remove()
+    //   }
+    // }
   },
   mounted () {
-    let vm = this
+    var vm = this
+    Events.on('child_added', function (eventNow) {
+      var item = eventNow.val()
+      item.id = eventNow.key
+      vm.events.push(item)
+    })
+    Events.on('child_removed', function (eventNow) {
+      var id = eventNow.key
+      var index = vm.events.findIndex(event => event.id === id)
+      vm.events.splice(index, 1)
+    })
+    Events.on('child_changed', function (eventNow) {
+      var id = eventNow.key
+      var event = vm.events.find(events => events.id === id)
+      event.name = eventNow.val().name
+      event.location = eventNow.val().location
+      event.date = eventNow.val().date
+      event.contact = eventNow.val().contact
+      event.detail = eventNow.val().detail
+      event.picture = eventNow.val().picture
+    })
     window.fbAsyncInit = () => {
       FB.init({
         appId: '1341859152512597',
@@ -94,12 +147,12 @@ export default {
         vm.statusChangeCallback(response)
       })
     }
-    this.$http.get('https://kmutnbevent.firebaseio.com/events.json').then(function (res) {
-      var arrData = Object.keys(res.body).map(key => res.body[key])
-      arrData.forEach(item => {
-        this.events.push(item)
-      })
-    })
+    // this.$http.get('https://kmutnbevent.firebaseio.com/events.json').then(function (res) {
+    //   var arrData = Object.keys(res.body).map(key => res.body[key])
+    //   arrData.forEach(item => {
+    //     this.events.push(item)
+    //   })
+    // })
   }
 }
 </script>
@@ -117,7 +170,7 @@ export default {
 }
 .nav_has-shadow {
   width: 100%;
-  background-color: #00d1b2;
+  background-color: #3273dc;
   height: 7%;
 }
 .nav-center {
@@ -144,7 +197,7 @@ export default {
   font-size: 18px;
 }
 .nav {
-  border-bottom: 2px solid #00d1b2;
+  border-bottom: 2px solid #3273dc;
   margin-bottom: 5vh;
 }
 .notification {

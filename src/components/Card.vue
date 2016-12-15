@@ -28,6 +28,25 @@
           <br>
             <small>{{n.date}}</small>
           </div>
+          <div class="modal is-active" v-if="statusdetail">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">details Event</p>
+                <button class="delete" @click="showdetail2()"></button>
+              </header>
+              <section class="modal-card-body">
+                {{n.name}}<br><br><br>
+                {{n.location}}<br><br>
+                {{n.date}}<br><br><br>
+                {{n.contact}}<br><br><br>
+                {{n.detail}}<br><br><br>
+              </section>
+            </div>
+          </div>
+          <a class="button is-success" @click="showdetail1()">Detail</a>
+          <a class="button is-info"  @click="like(n.id)">สนใจ</a>
+          <!-- <a class="button is-info" v-if="!checkLike(n.user)" @click="disLike(n.id)">ไม่สนใจ</a> -->
         </div>
       </div>
       <br><br>
@@ -41,9 +60,26 @@
 <script>
 export default {
   name: 'Card',
-  props: ['events'],
+  props: ['events', 'like', 'idFacebook'],
   data () {
-    return {}
+    return {
+      statusdetail: false
+    }
+  },
+  methods: {
+    showdetail1 () {
+      this.statusdetail = true
+    },
+    showdetail2 () {
+      this.statusdetail = false
+    }
+    // checkLike (user) {
+    //   var vm = this
+    //   var userData = Object.keys(user).map(key => user[key])
+    //   console.log(userData)
+    //   var x = userData.find(user => user.idFacebook === vm.idFacebook)
+    //   return (x === undefined)
+    // }
   }
 }
 </script>
@@ -56,15 +92,15 @@ export default {
   width: 45%;
 }
 
-
-/*.columhead2 {
-  float: right;
-  width: 45%;
-  padding-right: 5%;
-
-}*/
-
+.colum1 {
+  font-family: 'Vollkorn', serif;
+  width: 100%;
+  float: left;
+  padding-left: 10%;
+  padding-right: 10%;
+}
 .card {
   width: 100%
+
 }
 </style>
