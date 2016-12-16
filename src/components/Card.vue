@@ -7,30 +7,28 @@
       <br>
       <center><img :src="n.picture" class="imgevnt" width="95%"></center>
       <center>
-        <br>
       <h2 class="title is-5 textred ">{{n.name}}</h2>
       <h5 class="subtitle is-6 ">วันที่ {{n.date}}</h5>
       <h5 class="subtitle is-6 ">สถานที่ {{n.location}}<br>Google map : <a target="_blank" :href="n.map"><a>{{n.map}} </h5>
-        <br>
           <div class="modal is-active" v-if="statusdetail">
             <div class="modal-background"></div>
             <div class="modal-card">
               <header class="modal-card-head">
-                <p class="modal-card-title">{{n.name}}</p>
+                <p class="modal-card-title">{{event.name}}</p>
                 <button class="delete" @click="showdetail2()"></button>
               </header>
               <section class="modal-card-body">
                 <div class="contentdetail">
-                {{n.location}}<br><br>
-                {{n.date}}<br><br><br>
-                {{n.contact}}<br><br><br>
-                {{n.detail}}<br><br><br>
+                {{event.location}}<br><br>
+                {{event.date}}<br><br><br>
+                {{event.contact}}<br><br><br>
+                {{event.detail}}<br><br><br>
               </div>
               </section>
             </div>
           </div>
           <a class="button is-info"  @click="like(n.id)">สนใจ</a>
-          <a class="button is-success" @click="showdetail1()">รายละเอียด</a>
+          <a class="button is-success" @click="showdetail1(n.id)">รายละเอียด</a>
           </center><br>
           <!-- <a class="button is-info" v-if="!checkLike(n.user)" @click="disLike(n.id)">ไม่สนใจ</a> -->
         </div>
@@ -47,15 +45,20 @@ export default {
   props: ['events', 'like', 'idFacebook', 'login'],
   data () {
     return {
+      event: {},
       statusdetail: false
     }
   },
   methods: {
-    showdetail1 () {
+    showdetail1 (id) {
+      var event = this.events.find(event => event.id === id)
+      this.event = event
       this.statusdetail = true
     },
     showdetail2 () {
       this.statusdetail = false
+    },
+    mounted: {
     }
     // checklogin () {
     //   if (this.idFacebook === '') {
