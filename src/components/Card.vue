@@ -5,12 +5,13 @@
   <div class="columhead1" v-for="n in events">
     <div class="card">
       <br>
-      <center><img :src="n.picture" class="imgevnt" width="805px"></center>
+      <center><img :src="n.picture" class="imgevnt" width="95%"></center>
       <center>
         <br>
       <h2 class="title is-5 textred ">{{n.name}}</h2>
       <h5 class="subtitle is-6 ">วันที่ {{n.date}}</h5>
-      <h5 class="subtitle is-6 ">สถานที่ {{n.location}}</h5>
+      <h5 class="subtitle is-6 ">สถานที่ {{n.location}}<br>Google map : <a target="_blank" :href="n.map"><a>{{n.map}} </h5>
+        <br>
           <div class="modal is-active" v-if="statusdetail">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -28,10 +29,9 @@
               </section>
             </div>
           </div>
-
+          <a class="button is-info"  @click="like(n.id)">สนใจ</a>
           <a class="button is-success" @click="showdetail1()">รายละเอียด</a>
-          <a class="button is-info"  @click="like(n.id)">สนใจ</a></center>
-          <br>
+          </center><br>
           <!-- <a class="button is-info" v-if="!checkLike(n.user)" @click="disLike(n.id)">ไม่สนใจ</a> -->
         </div>
         <br>

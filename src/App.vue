@@ -10,13 +10,13 @@
       </a>
     </div>
     <br>
-    <div class="nav-center">
-    <!-- <br>
+    <!-- <div class="nav-center">
+    <br>
       <input class="input" type="text" placeholder="Find a event">
       <button class="button">
         Search
-      </button> -->
-    </div>
+      </button>
+    </div> -->
     <div class="nav-right">
       <span class="nav-item">
         <div v-if="authorized" @click="logout()" class="logout"><a><B class="sizelogout" >Logout</B></a></div>
@@ -170,7 +170,7 @@ export default {
 .nav_has-shadow {
   width: 100%;
   background-color: #3273dc;
-  height: 7vh;
+  height: 5vh;
 }
 .nav-center {
   align-items: baseline;
