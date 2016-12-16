@@ -25,7 +25,7 @@
     </div>
   </nav>
   <!-- endheader -->
-  <Card :events = "events" :like = "like"  :id-facebook="idFacebook" :login="login"><Card>
+  <Card :events = "events" :like="like" :dis-like="disLike" :users="users" :id-facebook="idFacebook" :login="login" ><Card>
 </div>
 </template>
 
@@ -41,6 +41,7 @@ var config = {
 }
 firebase.initializeApp(config)
 var Events = firebase.database().ref('events')
+var Users = firebase.database().ref('users')
 import Card from './components/Card.vue'
 export default {
   name: 'app',
@@ -53,7 +54,8 @@ export default {
       ready: false,
       authorized: false,
       events: [],
-      idFacebook: ''
+      idFacebook: '',
+      users: []
     }
   },
   methods: {
@@ -76,6 +78,7 @@ export default {
       FB.logout(function (response) {
         vm.statusChangeCallback(response)
       })
+      this.idFacebook = ''
     },
     statusChangeCallback (response) {
       let vm = this
@@ -92,26 +95,20 @@ export default {
     },
     like (id) {
       var vm = this
-      firebase.database().ref('events/' + id + '/user').push({
-        idFacebook: vm.idFacebook
-      })
+      if (vm.idFacebook !== '') {
+        Users.push({
+          eventId: id,
+          idFacebook: vm.idFacebook
+        })
+      } else {
+        this.login()
+      }
+    },
+    disLike (id) {
+      var vm = this
+      var user = this.users.find(user => user.eventId === id && user.idFacebook === vm.idFacebook)
+      firebase.database().ref('users/' + user.id).remove()
     }
-    // disLike (id) {
-    //   var vm = this
-    //   var event = vm.events.find(event => event.id === id)
-    //   var userData = []
-    //   for (var prop in event.user) {
-    //     userData.push({
-    //       id: prop,
-    //       idFacebook: event.user[prop].idFacebook
-    //     })
-    //   }
-    //   var user = userData.find(user => user.idFacebook === vm.idFacebook)
-    //   console.log(user)
-    //   if (user !== undefined) {
-    //     firebase.database().ref('events/' + id + '/user/' + user.id).remove()
-    //   }
-    // }
   },
   mounted () {
     var vm = this
@@ -134,6 +131,16 @@ export default {
       event.contact = eventNow.val().contact
       event.detail = eventNow.val().detail
       event.picture = eventNow.val().picture
+    })
+    Users.on('child_added', function (eventNow) {
+      var item = eventNow.val()
+      item.id = eventNow.key
+      vm.users.push(item)
+    })
+    Users.on('child_removed', function (eventNow) {
+      var id = eventNow.key
+      var index = vm.users.findIndex(user => user.id === id)
+      vm.users.splice(index, 1)
     })
     window.fbAsyncInit = () => {
       FB.init({

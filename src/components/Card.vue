@@ -27,8 +27,10 @@
               </section>
             </div>
           </div>
-          <a class="button is-info"  @click="like(n.id)">สนใจ</a>
+          <a class="button is-info" v-if="!checkLike(n.id)" @click="like(n.id)">สนใจ</a>
+          <a class="button is-info" v-if="checkLike(n.id)"  @click="disLike(n.id)">ไม่สนใจ</a>
           <a class="button is-success" @click="showdetail1(n.id)">รายละเอียด</a>
+          <p class="setsizelike"> ผู้สนใจ {{countLike(n.id)}} คน </p>
           </center><br>
           <!-- <a class="button is-info" v-if="!checkLike(n.user)" @click="disLike(n.id)">ไม่สนใจ</a> -->
         </div>
@@ -42,7 +44,7 @@
 <script>
 export default {
   name: 'Card',
-  props: ['events', 'like', 'idFacebook', 'login'],
+  props: ['events', 'like', 'disLike', 'users', 'idFacebook', 'login'],
   data () {
     return {
       event: {},
@@ -58,19 +60,24 @@ export default {
     showdetail2 () {
       this.statusdetail = false
     },
-    mounted: {
+    checkLike (id) {
+      var vm = this
+      var user = this.users.find(user => user.eventId === id && user.idFacebook === vm.idFacebook)
+      return user !== undefined
+    },
+    countLike (id) {
+      var count = 0
+      this.users.forEach(user => {
+        if (user.eventId === id) {
+          count++
+        }
+      })
+      return count
     }
     // checklogin () {
     //   if (this.idFacebook === '') {
     //     login ()
     //   }
-    // }
-    // checkLike (user) {
-    //   var vm = this
-    //   var userData = Object.keys(user).map(key => user[key])
-    //   console.log(userData)
-    //   var x = userData.find(user => user.idFacebook === vm.idFacebook)
-    //   return (x === undefined)
     // }
   }
 }
@@ -91,6 +98,7 @@ export default {
   /*padding-left:15%;
   padding-right:15%;*/
 }
-.imgevnt {
+.setsizelike {
+  font-size: 18px;
 }
 </style>
