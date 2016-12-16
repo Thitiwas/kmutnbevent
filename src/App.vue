@@ -12,10 +12,7 @@
     <br>
     <!-- <div class="nav-center">
     <br>
-      <input class="input" type="text" placeholder="Find a event">
-      <button class="button">
-        Search
-      </button>
+      <input class="input" type="text" v-model = "search" placeholder="Find a event">
     </div> -->
     <div class="nav-right">
       <span class="nav-item">
@@ -55,9 +52,26 @@ export default {
       authorized: false,
       events: [],
       idFacebook: '',
-      users: []
+      users: [],
+      search: '',
+      statussearch: true
     }
   },
+  // computed: {
+  //   filteredItems: function () {
+  //     var data = this.events
+  //     // console.log('search :::', this.search)
+  //     console.log(data.filter(item => item.name === this.search))
+  //     return data.filter(item => item.name === this.search)
+  //   },
+  //   checksearch: function () {
+  //     if (this.search !== '') {
+  //       return false
+  //     } else if (this.search === '') {
+  //       return true
+  //     }
+  //   }
+  // },
   methods: {
     getProfile () {
       let vm = this
@@ -153,12 +167,6 @@ export default {
         vm.statusChangeCallback(response)
       })
     }
-    // this.$http.get('https://kmutnbevent.firebaseio.com/events.json').then(function (res) {
-    //   var arrData = Object.keys(res.body).map(key => res.body[key])
-    //   arrData.forEach(item => {
-    //     this.events.push(item)
-    //   })
-    // })
   }
 }
 </script>
@@ -166,9 +174,6 @@ export default {
 <style>
 
 #app {
-  /*background-image: url('./assets/backg.jpg');*/
-  /*background-size: cover;*/
-
 }
 .logout {
   font-family: 'Amaranth', sans-serif;
@@ -176,7 +181,7 @@ export default {
 }
 .nav_has-shadow {
   width: 100%;
-  background-color: #3273dc;
+  background-color: #00d1b2;
   height: 5vh;
 }
 .nav-center {
@@ -203,7 +208,7 @@ export default {
   font-size: 16px;
 }
 .nav {
-  border-bottom: 2px solid #3273dc;
+  border-bottom: 2px solid #00d1b2;
 }
 .notification {
   margin-left:15%;
