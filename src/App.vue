@@ -9,11 +9,9 @@
         <strong class="orange">KMUTNB</strong> <strong class="black">Event</strong>
       </a>
     </div>
-    <br>
-    <!-- <div class="nav-center">
-    <br>
-      <input class="input" type="text" v-model = "search" placeholder="Find a event">
-    </div> -->
+    <div class="nav-center">
+<input class="search" type="text" placeholder="Find a event" v-model="search">
+    </div>
     <div class="nav-right">
       <span class="nav-item">
         <div v-if="authorized" @click="logout()" class="logout"><a><B class="sizelogout" >Logout</B></a></div>
@@ -22,7 +20,7 @@
     </div>
   </nav>
   <!-- endheader -->
-  <Card :events = "events" :like="like" :dis-like="disLike" :users="users" :id-facebook="idFacebook" :login="login" ><Card>
+  <Card :events = "events" :like="like" :dis-like="disLike" :users="users" :id-facebook="idFacebook" :login="login" :search = "search" :filteredItems = "filteredItems"><Card>
 </div>
 </template>
 
@@ -53,25 +51,17 @@ export default {
       events: [],
       idFacebook: '',
       users: [],
-      search: '',
-      statussearch: true
+      search: ''
     }
   },
-  // computed: {
-  //   filteredItems: function () {
-  //     var data = this.events
-  //     // console.log('search :::', this.search)
-  //     console.log(data.filter(item => item.name === this.search))
-  //     return data.filter(item => item.name === this.search)
-  //   },
-  //   checksearch: function () {
-  //     if (this.search !== '') {
-  //       return false
-  //     } else if (this.search === '') {
-  //       return true
-  //     }
-  //   }
-  // },
+  computed: {
+    filteredItems: function () {
+      var data = this.events
+      // console.log('search :::', this.search)
+      console.log(data.filter(item => item.name === this.search))
+      return data.filter(item => item.name === this.search)
+    }
+  },
   methods: {
     getProfile () {
       let vm = this
@@ -184,10 +174,13 @@ export default {
   background-color: #00d1b2;
   height: 5vh;
 }
+.search {
+  width: 100%;
+}
 .nav-center {
   align-items: baseline;
-  padding-top: 12px;
-  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .nav-right {
     padding-right: 10;

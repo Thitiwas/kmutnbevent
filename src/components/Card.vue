@@ -1,8 +1,7 @@
 <template>
 <div id="Card" style="height: 100vu">
-
   <!-- startcolum1 -->
-  <div class="columhead1" v-for="n in events" style="height: 100vu" >
+  <div class="columhead1" v-show="checksearch" v-for="n in events" style="height: 100vu" >
     <div class="card" style="height: 100vu">
       <br>
       <center><img :src="n.picture" class="imgevnt" width="95%"></center>
@@ -44,6 +43,47 @@
         </div>
       </div>
   <!-- endcolum1 -->
+  <div class="columhead2" v-show="!checksearch" v-for="show in filteredItems" style="height: 100vu" >
+    <div class="card" style="height: 100vu">
+      <br>
+      <center><img :src="show.picture" class="imgevnt" width="95%"></center>
+      <center>
+      <br>
+      <h2 class="title is-5 textred ">{{show.name}}</h2>
+      <h5 class="subtitle is-6 ">วันที่ {{show.date}}</h5>
+      <h5 class="subtitle is-6 ">สถานที่ {{show.location}}<br>Google map : <a target="_blank" :href="show.map"><a>{{show.map}} </h5>
+          <div class="modal is-active" v-if="statusdetail">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">{{event.name}}</p>
+                <button class="delete" @click="showdetail2()"></button>
+              </header>
+              <section class="modal-card-body">
+                <img :src="event.picture">
+                <br><br>
+                <h1>location <br><br> {{event.location}}</h1>
+                <hr>
+                <h1>map <br><br> <a target="_blank" :href="event.map">{{event.map}}</a>
+                <hr>
+                <h1>date     <br><br> {{event.date}}</h1>
+                <hr>
+                <h1>contact  <br><br> {{event.contact}}</h1>
+                <hr>
+                <h1>detial   <br><br> {{event.detail}}</h1>
+                <hr>
+                <h1>          {{countLike(show.id)}} คน สนใจสิ่งนี้</h1>
+              </section>
+            </div>
+          </div>
+          <a class="button is-info" v-if="!checkLike(show.id)" @click="like(show.id)">สนใจ</a>
+          <a class="button is-info" v-if="checkLike(show.id)"  @click="disLike(show.id)">ไม่สนใจ</a>
+          <a class="button is-success" @click="showdetail1(show.id)">รายละเอียด</a>
+          <p class="setsizelike">{{countLike(show.id)}} คน สนใจกิจกรรมนี้  </p>
+          </center><br>
+          <!-- <a class="button is-info" v-if="!checkLike(n.user)" @click="disLike(n.id)">ไม่สนใจ</a> -->
+        </div>
+      </div>
   <!--BACK TO TOP STARTS-->
   <a rel="nofollow" style="display:scroll;position:fixed;bottom:10px;right:1px;" href="#" title="Back to Top"><img width="35vh" src="http://hoithao.kontum.udn.vn/images/gototop.png"/></a><!--mybloggersworld.com-->
   <!--BACK TO ENDS-->
@@ -53,11 +93,28 @@
 <script>
 export default {
   name: 'Card',
-  props: ['events', 'like', 'disLike', 'users', 'idFacebook', 'login'],
+  props: ['events', 'like', 'disLike', 'users', 'idFacebook', 'login', 'search', 'filteredItems'],
   data () {
     return {
       event: {},
       statusdetail: false
+    }
+  },
+  // watch: {
+  //   search: function (val, oldVal) {
+  //     var data = this.events
+  //     console.log(data.filter(event => event.name === this.search))
+  //     console.log(this.search)
+  //     return data.filter(event => event.name === this.search)
+  //   }
+  // },
+  computed: {
+    checksearch () {
+      if (this.search !== '') {
+        return false
+      } else if (this.search === '') {
+        return true
+      }
     }
   },
   methods: {
@@ -100,7 +157,11 @@ export default {
   float: left;
   border-radius: 15px;
 }
-.headcolum1 {
+.columhead2 {
+    background-color: white;
+    width: 100%;
+    margin-left: 25%;
+    margin-left: 25%;
 }
 .setsizelike {
   font-size: 18px;
