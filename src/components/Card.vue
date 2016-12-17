@@ -30,7 +30,7 @@
                 <hr>
                 <h1>detial   <br><br> {{event.detail}}</h1>
                 <hr>
-                <h1>          {{countLike(n.id)}} คน สนใจสิ่งนี้</h1>
+                <h1>          {{countLike(event.id)}} คน สนใจสิ่งนี้</h1>
               </section>
             </div>
           </div>
@@ -72,7 +72,7 @@
                 <hr>
                 <h1>detial   <br><br> {{event.detail}}</h1>
                 <hr>
-                <h1>          {{countLike(show.id)}} คน สนใจสิ่งนี้</h1>
+                <h1>          {{countLike(event.id)}} คน สนใจสิ่งนี้</h1>
               </section>
             </div>
           </div>
